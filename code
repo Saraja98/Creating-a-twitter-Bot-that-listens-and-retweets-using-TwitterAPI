@@ -1,0 +1,59 @@
+npm install twit --save. //Bot Authentication
+//Config Object 
+let config = {
+    consumer_key: "key",
+    consumer_secret: "key",
+    access_token: "key",
+    access_token_secret: "key"
+};
+//Listen/Search for Hashtag
+//Export the Config to access from the main bot app.
+module.exports = config;
+let Twit = require("twit");
+
+//Create an Instance of Twitter API and Authenticate using App Keys 
+let T = new Twit(require("./config"));
+//Our Search Object 
+let searchHashtag = { q: "#coding", count: 1, result_type: "recent" };
+//We will use #coding hashtag just because we like coding :)
+//The main function to search and retweet
+function retweet() {
+   //Send a GET Request to search/tweets inorder to get the tweets with the Query 
+   T.get("search/tweets", searchHashtag, (err, data) => {
+           //Check for any errors 
+           if (err) {
+               console.log("Cannot Grab Latest Tweet On Hashtag: ", searchHashtag.q);
+               return; ///< exit function
+           }
+           console.log("Data: ", data); ///< Quick Test
+    }
+}
+//Retweet #hashtag tweets
+...
+//Make sure that the Data is valid 
+if (data && data.statuses.length > 0) {
+    //Tweets are on an array on the searched object (data.statuses)
+    let tweet = data.statuses[0];
+    //We want to retweet only one tweet so we access the first one (0 index)
+    console.log(tweet); ///< LOG IT 
+    //Retweet using the tweet's ID 
+    T.post("statuses/retweet/" + tweet.id_str, (e, res) => {
+        //Any Errors?
+        if (e) {
+            console.log("Cannot Retweet your Tweet!");
+            return;
+        }
+        //Success
+        if (res) {
+            console.log("Success, Check your Account for the Retweet!");
+        }
+    });
+} else {
+    //Empty Statuses Array (Hashtag has no tweets!)
+    console.log("No Tweets on the Hashtag: ", searchHashtag.q);
+}
+...
+//keeping bot alive
+//Use SetInterval function for running the retweet function each hour 
+setInterval(retweet, 3600 * 1000); 
+//Hour = 3600 second and each second has 1000 ms => 3600 * 1000 ms
