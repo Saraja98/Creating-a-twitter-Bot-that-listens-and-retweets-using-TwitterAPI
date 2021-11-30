@@ -22,6 +22,8 @@ I programmed a Bot to find out tweets that was trending on Twitter on a particul
 
 <I>I want to be active on my twitter account even if no access to internet connection by automating the task of tweeting via a Bot.</I>
 
+<I> I want to be updated about new research and developements in my feild </I>
+
 <B> Outputs </B>
 1)Ran my program on terminal
 
